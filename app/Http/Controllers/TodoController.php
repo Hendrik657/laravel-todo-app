@@ -41,14 +41,32 @@ class TodoController extends Controller
 		]);
 
 		//Terugsturen
-		return redirect()->back()->with('succes', 'Todo succesvol aangemaakt');
+		return redirect('/todo')->with('succes', 'Todo succesvol aangemaakt');
 	}
 
+	/**
+	 * Verwijdert de geselecteerde todo
+	 */
 	public function deleteTodo($id){
+		//Todo opzoeken
 		$todo = TodoModel::findOrFail($id);
 
 		$todo->delete();
 
 		return redirect('/todo')->with('succes', 'Todo succesvol verwijderd');
+	}
+
+	/**
+	 * Wisselt de checkbox tussen geselecteerd en niet-geselecteerd
+	 */
+	public function toggleTodo($id){
+		$todo = TodoModel::findOrFail($id);
+
+		//Status omdraaien
+		$todo->isCompleted = !$todo->isCompleted;
+
+		$todo->save();
+
+		return redirect('/todo')->with('succes', 'Todo succesvol bijgewerkt');
 	}
 }

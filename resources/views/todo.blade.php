@@ -41,32 +41,37 @@
 			</section>
 
 			{{-- Todo lijst --}}
-			<section class="mt-5 absolute left-1/2 transform -translate-x-1/2">
-				<h2 class="text-4xl mb-3">Todo lijst</h2>
+			<section class="mt-5 ml-20 absolute left-1/2 transform -translate-x-1/2">
+				<h2 class="text-4xl mb-3 ml-3">Todo lijst</h2>
 
-				@foreach ($todos as $todo)
-					<div class="bg-white p-2 rounded-xl mb-3">
-						<h3 class="text-2xl mb-2">{{ $todo->title }}</h3>
-						<p class="mb-2">{{ $todo->description }}</p>
+				<div class="flex flex-wrap">
+					@foreach ($todos as $todo)
+						<div class="bg-white p-2 rounded-xl mb-3 ml-3">
+							<h3 class="text-2xl mb-2">{{ $todo->title }}</h3>
+							<p class="mb-2">{{ $todo->description }}</p>
 
-						<div class="flex mb-2">
-							<p class="mr-4">Voltooid:</p>
-							@if ($todo->isCompleted)
-								<input type="checkbox" name="completed" id="completed" checked>
-							@else
-								<input type="checkbox" name="completed" id="completed">
-							@endif
+							<div class="flex mb-2">
+								<p class="mr-4">Voltooid:</p>
+								<form action="{{ route('todo.toggle', $todo->id) }}" method="post">
+									@csrf
+									@method('PATCH')
+									<input 
+										type="checkbox" name="completed" id="completed"
+										onchange="this.form.submit()"
+										{{ $todo->isCompleted ? 'checked' : ''}}>
+								</form>
+							</div>
+
+							<form action="{{ route('todo.delete', $todo->id) }}" method="POST">
+								@csrf
+								@method('DELETE')
+								<button type="submit" class="bg-red-500 text-white p-2 rounded-xl cursor-pointer hover:bg-red-600 active:bg-red-700">
+									Verwijderen
+								</button>
+							</form>
 						</div>
-
-						<form action="{{ route('todo.delete', $todo->id) }}" method="POST">
-							@csrf
-							@method('DELETE')
-							<button type="submit" class="bg-red-500 text-white p-2 rounded-xl cursor-pointer hover:bg-red-600 active:bg-red-700">
-								Verwijderen
-							</button>
-						</form>
-					</div>
-				@endforeach
+					@endforeach
+				</div>
 			</section>
 		</div>
 	</main>
