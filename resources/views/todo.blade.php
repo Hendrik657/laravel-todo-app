@@ -58,9 +58,13 @@
 							@endif
 						</div>
 
-						<button type="submit" class="bg-red-500 text-white p-2 rounded-xl cursor-pointer hover:bg-red-600 active:bg-red-700">
-							Verwijderen
-						</button>
+						<form action="{{ route('todo.delete', $todo->id) }}" method="POST">
+							@csrf
+							@method('DELETE')
+							<button type="submit" class="bg-red-500 text-white p-2 rounded-xl cursor-pointer hover:bg-red-600 active:bg-red-700">
+								Verwijderen
+							</button>
+						</form>
 					</div>
 				@endforeach
 			</section>

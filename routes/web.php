@@ -9,5 +9,6 @@ Route::get('/', function () {
 
 Route::get('/todo', [TodoController::class, 'getTodos']);
 
-//Post route toevoegen om todo's aan te maken
+//Post, delete route toevoegen om todo's aan te maken
 Route::post('/todo', [TodoController::class, 'createTodo'])->name('todo.create');
+Route::delete('/todo{id}', [TodoController::class, 'deleteTodo'])->name('todo.delete');

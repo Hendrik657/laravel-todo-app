@@ -43,4 +43,12 @@ class TodoController extends Controller
 		//Terugsturen
 		return redirect()->back()->with('succes', 'Todo succesvol aangemaakt');
 	}
+
+	public function deleteTodo($id){
+		$todo = TodoModel::findOrFail($id);
+
+		$todo->delete();
+
+		return redirect('/todo')->with('succes', 'Todo succesvol verwijderd');
+	}
 }
