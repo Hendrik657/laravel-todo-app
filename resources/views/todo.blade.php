@@ -18,22 +18,53 @@
 	</header>
 
 	<main>
-		<form action="" method="post" class="max-w-md mx-auto">
-			{{-- Titel --}}
-			<div class="mb-5">
-				<label for="titel" class="block mb-2 font-medium">Titel</label>
-				<input type="text" name="titel" id="titel" class="w-full border rounded p-2" required>
-			</div>
-			
-			{{-- Omschrijving --}}
-			<div class="mb-5">
-				<label for="omschrijving" class="block mb-2 font-medium">Omschrijving</label>
-				<input type="text" name="omschrijving" id="omschrijving" class="w-full border rounded p-2" required>
-			</div>
+		<div class="relative flex w-full">
+			{{-- Nieuwe todo --}}
+			<section class="mt-5 w-100">
+				<h2 class="text-4xl mb-3">Nieuwe todo</h2>
+				<form action="{{ route('todo.create') }}" method="post" class="max-w-md">
+					@csrf
+					{{-- Titel --}}
+					<div class="mb-5">
+						<label for="titel" class="block mb-2 font-medium">Titel</label>
+						<input type="text" name="titel" id="titel" class="w-full border rounded p-2" required>
+					</div>
+					
+					{{-- Omschrijving --}}
+					<div class="mb-5">
+						<label for="omschrijving" class="block mb-2 font-medium">Omschrijving</label>
+						<input type="text" name="omschrijving" id="omschrijving" class="w-full border rounded p-2" required>
+					</div>
 
-			<input type="submit" value="Opslaan" class="cursor-pointer bg-blue-500 hover:bg-blue-600 active:bg-blue-700 p-3 rounded-3xl text-white w-full">
-		</form>
+					<input type="submit" value="Opslaan" class="cursor-pointer bg-blue-500 hover:bg-blue-600 active:bg-blue-700 p-3 rounded-3xl text-white w-full">
+				</form>
+			</section>
 
+			{{-- Todo lijst --}}
+			<section class="mt-5 absolute left-1/2 transform -translate-x-1/2">
+				<h2 class="text-4xl mb-3">Todo lijst</h2>
+
+				@foreach ($todos as $todo)
+					<div class="bg-white p-2 rounded-xl mb-3">
+						<h3 class="text-2xl mb-2">{{ $todo->title }}</h3>
+						<p class="mb-2">{{ $todo->description }}</p>
+
+						<div class="flex mb-2">
+							<p class="mr-4">Voltooid:</p>
+							@if ($todo->isCompleted)
+								<input type="checkbox" name="completed" id="completed" checked>
+							@else
+								<input type="checkbox" name="completed" id="completed">
+							@endif
+						</div>
+
+						<button type="submit" class="bg-red-500 text-white p-2 rounded-xl cursor-pointer hover:bg-red-600 active:bg-red-700">
+							Verwijderen
+						</button>
+					</div>
+				@endforeach
+			</section>
+		</div>
 	</main>
 </body>
 </html>
